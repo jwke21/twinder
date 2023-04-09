@@ -1,0 +1,16 @@
+# vscode config stuff
+.vscode/
+
+# Obsidian config stuff
+.obsidian/
+
+# IntelliJ stuff
+out/
+target/
+
+# Program output stuff
+*.csv
+
+# AWS credential stuff
+aws.xml
+
