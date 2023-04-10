@@ -12,7 +12,7 @@ import java.io.IOException;
 import rmq.RmqConnectionHandler;
 import utils.UC;
 
-@WebServlet(name = "PostServlet", value = "/Twinder")
+@WebServlet(name = "PostServlet", value = "/Twinder/swipe/*")
 public class PostServlet extends HttpServlet {
 
   private RmqConnectionHandler rmqConnectionHandler;

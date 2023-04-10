@@ -11,7 +11,7 @@
 
   <servlet-mapping>
     <servlet-name>PostServlet</servlet-name>
-    <url-pattern>/Twinder/*</url-pattern>
+    <url-pattern>/Twinder/swipe/*</url-pattern>
   </servlet-mapping>
   
 </web-app>
