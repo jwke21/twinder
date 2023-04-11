@@ -29,7 +29,7 @@ public class StatsServlet extends HttpServlet {
 
         int userId;
         try {
-            userId = Integer.parseInt(request.getPathInfo());
+            userId = Integer.parseInt(request.getPathInfo().substring(1));
         } catch (NumberFormatException e) {
             response.sendError(HttpServletResponse.SC_NOT_FOUND, "Invalid GET path"); // HTTP 404
             return;
