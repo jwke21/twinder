@@ -1,24 +1,18 @@
-package twinder;
+package server;
 
 import com.google.gson.Gson;
-import com.rabbitmq.client.Channel;
 import dynamodb.DynamoDbConnector;
 import dynamodb.LikedUsers;
-import dynamodb.SwipeMetrics;
 import dynamodb.UserData;
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.regex.Pattern;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import utils.UC;
 
 @WebServlet(urlPatterns = "/matches/*")
 public class MatchesServlet extends HttpServlet {
