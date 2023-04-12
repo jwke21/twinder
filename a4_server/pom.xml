@@ -6,6 +6,7 @@
 
   <groupId>cs6650</groupId>
   <artifactId>a4_server_post</artifactId>
+  <packaging>war</packaging>
   <version>1.0-SNAPSHOT</version>
 
   <properties>
@@ -15,6 +16,19 @@
   </properties>
 
  <dependencies>
+   <!-- https://mvnrepository.com/artifact/com.amazonaws/aws-java-sdk-core -->
+   <dependency>
+     <groupId>com.amazonaws</groupId>
+     <artifactId>aws-java-sdk-core</artifactId>
+     <version>1.12.439</version>
+   </dependency>
+
+   <!-- https://mvnrepository.com/artifact/com.amazonaws/aws-java-sdk-dynamodb -->
+   <dependency>
+     <groupId>com.amazonaws</groupId>
+     <artifactId>aws-java-sdk-dynamodb</artifactId>
+     <version>1.12.439</version>
+   </dependency>
 
    <!-- https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api -->
    <dependency>
@@ -52,5 +66,9 @@
    </dependency>
 
  </dependencies>
+
+  <build>
+    <finalName>a4-backend</finalName>
+  </build>
 
 </project>

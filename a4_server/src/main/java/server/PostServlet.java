@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import com.rabbitmq.client.Channel;
 import java.io.BufferedReader;
 import java.nio.charset.StandardCharsets;
-import java.util.regex.Pattern;
+import java.util.List;
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
@@ -12,18 +12,19 @@ import java.io.IOException;
 import rmq.RmqConnectionHandler;
 import utils.UC;
 
-@WebServlet(name = "PostServlet", value = "/Twinder/swipe/*")
+@WebServlet(urlPatterns = "/swipe/*")
 public class PostServlet extends HttpServlet {
 
   private RmqConnectionHandler rmqConnectionHandler;
   // Gson instance that will handle json serialization and de-serialization
   // Ref: https://github.com/google/gson/blob/master/UserGuide.md
   private static Gson gson = new Gson();
-  private static final Pattern validPostPaths[] = {
-      // path = "/swipe/{leftorright}/"
-      // leftorright - Like or dislike user. String
-      Pattern.compile("/swipe/(left|right)"),
-  };
+  private static final List<String> VALID_POST_PATHS = List.of(
+          "/left",
+          "/left/",
+          "/right",
+          "/right/"
+  );
 
   @Override
   public void init(ServletConfig config) throws ServletException {
@@ -40,19 +41,13 @@ public class PostServlet extends HttpServlet {
   }
 
   @Override
-  protected void doGet(HttpServletRequest request, HttpServletResponse response)
-      throws ServletException, IOException {
-
-  }
-
-  @Override
   protected void doPost(HttpServletRequest request, HttpServletResponse response)
-      throws ServletException, IOException {
+      throws IOException {
 
     response.setContentType("application/json");
     String urlPath = request.getPathInfo();
     // Validate path
-    if (!isValidPostPath(urlPath)) {
+    if (!VALID_POST_PATHS.contains(urlPath)) {
       response.sendError(HttpServletResponse.SC_NOT_FOUND, "Invalid POST path"); // HTTP 404
       return;
     }
@@ -68,7 +63,7 @@ public class PostServlet extends HttpServlet {
         return;
       }
       // Build the message to be sent to the RMQ broker
-      boolean liked = urlPath.contains("right") ? true : false;
+      boolean liked = urlPath.contains("right");
       String msg = "{swiper:" + jsonPayload.swiper + ",swipee:" + jsonPayload.swipee + ",like:" + liked + "}";
       // Publish the JSON message to the fanout exchange
       channel.basicPublish(UC.RMQ_SWIPE_EXCHANGE_NAME,
@@ -85,18 +80,6 @@ public class PostServlet extends HttpServlet {
       // Return the channel to the channel pool
       rmqConnectionHandler.returnChannel(channel);
     }
-  }
-
-  private boolean isValidPostPath(String urlPath) {
-    // null check
-    if (urlPath == null || urlPath.isEmpty()) {
-      return false;
-    }
-    // Check if given urlPath matches any valid POST path patterns
-    for (int i=0; i < validPostPaths.length; i++) {
-      if (validPostPaths[i].matcher(urlPath).matches()) { return true; }
-    }
-    return false;
   }
 
   private String readRequestBody(HttpServletRequest request) throws IOException {
