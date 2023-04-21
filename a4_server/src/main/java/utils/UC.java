@@ -16,8 +16,8 @@ public class UC {
     public static final String RMQ_SWIPE_EXCHANGE_NAME = "swipe_exchange";
     public static final String RMQ_SWIPE_EXCHANGE_TYPE = "fanout";
     public static final String URL_MATCHES_TAG = "matches";
-    public static final String DB_LIKED_USERS_TABLE = "LikedUsers";
-    public static final String DB_SWIPE_METRICS_TABLE = "SwipeMetrics";
+    public static final String DB_LIKED_USERS_TABLE = "LikedUsersCopy";
+    public static final String DB_SWIPE_METRICS_TABLE = "SwipeMetricsCopy";
     public static final String DB_PARTITION_KEY = "UserId";
     public static final String DB_LIKES_ATTRIBUTE = "Likes";
     public static final String DB_DISLIKES_ATTRIBUTE = "Dislikes";

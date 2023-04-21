@@ -13,5 +13,15 @@
     <servlet-name>PostServlet</servlet-name>
     <url-pattern>/Twinder/swipe/*</url-pattern>
   </servlet-mapping>
-  
+
+  <servlet>
+    <servlet-name>MatchesServlet</servlet-name>
+    <servlet-class>server.MatchesServlet</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>MatchesServlet</servlet-name>
+    <url-pattern>/Twinder/</url-pattern>
+  </servlet-mapping>
+
 </web-app>
