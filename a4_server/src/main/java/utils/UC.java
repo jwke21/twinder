@@ -9,7 +9,7 @@ public class UC {
     public static final int NUM_CHANNELS = 100;
     public static final String RMQ_CONNECTION_NAME = "Twinder Servlet";
     public static final String RMQ_HOST_NAME = "ip-172-31-26-18.us-west-2.compute.internal";
-//    public static final String RMQ_HOST_NAME = "54.202.82.171";
+//    public static final String RMQ_HOST_NAME = "35.91.109.227";
     public static final String RMQ_VHOST = "a3_host";
     public static final String RMQ_USERNAME = "admin";
     public static final String RMQ_PASSWORD = "admin666";
