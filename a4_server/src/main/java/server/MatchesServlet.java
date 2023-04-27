@@ -48,42 +48,19 @@ public class MatchesServlet extends HttpServlet {
     }
 
     // Get data from db
-    LikedUsers record;
-    record = dynamoDbConnector.getLikedUsers(userId);
-
+    LikedUsers record = dynamoDbConnector.getLikedUsers(userId);
     // Build response
-    String respBody;
-
-    // Handle a non-existent user record
-    if (record == null) {
-      respBody = gson.toJson(new GetMatchesResponseJson(new HashSet<>()));
-//      response.sendError(HttpServletResponse.SC_NOT_FOUND, "User not found"); // HTTP 404
-//      return;
-    } else {
-      // We return a set of potential matches that has a max size of 100 according to API spec.
-      Set<Integer> potentialMatches;
-      if (record.getLikedUsers().size() <= 100) {
-        potentialMatches = record.getLikedUsers();
-      } else {
-        potentialMatches = new HashSet<>();
-        for (Integer likedUser : record.getLikedUsers()) {
-          potentialMatches.add(likedUser);
-          if (potentialMatches.size() >= 100) {
-            break;
-          }
-        }
-      }
-      respBody = gson.toJson(new GetMatchesResponseJson(potentialMatches));
-    }
-
-    // Send response to client
-    response.setStatus(HttpServletResponse.SC_OK); // HTTP 200
+    String respBody = record == null ?
+            gson.toJson(new GetMatchesResponseJson()) : gson.toJson(new GetMatchesResponseJson(record.getLikedUsers()));
+    response.setStatus(HttpServletResponse.SC_OK);
     response.getWriter().write(respBody);
   }
 
   // ------------------------------ GetMatchesResponseJson ------------------------------
   private static class GetMatchesResponseJson {
     public Set<Integer> matchList;
+
+    public GetMatchesResponseJson() {this.matchList = new HashSet<>(0);}
 
     public GetMatchesResponseJson(Set<Integer> matchList) {
       this.matchList = matchList;

@@ -36,23 +36,13 @@ public class StatsServlet extends HttpServlet {
         }
 
         // Get data from db
-        SwipeMetrics record;
-        record = dynamoDbConnector.getSwipeMetrics(userId);
-
+        SwipeMetrics record = dynamoDbConnector.getSwipeMetrics(userId);
         // Build response
-        String respBody;
-
-        // Handle a non-existent user record
-        if (record == null) {
-            respBody = gson.toJson(new GetStatsResponseJson(0,0));
-//            response.sendError(HttpServletResponse.SC_NOT_FOUND, "User not found"); // HTTP 404
-//            return;
-        } else {
-            respBody = gson.toJson(new GetStatsResponseJson(record.getLikes(), record.getDislikes()));
-        }
-
-        // Send response to client
-        response.setStatus(HttpServletResponse.SC_OK); // HTTP 200
+        String respBody = record == null ?
+                gson.toJson(new GetStatsResponseJson()) : gson.toJson(new GetStatsResponseJson(
+                        record.getLikes(), record.getDislikes()
+        ));
+        response.setStatus(HttpServletResponse.SC_OK);
         response.getWriter().write(respBody);
     }
 
@@ -60,6 +50,8 @@ public class StatsServlet extends HttpServlet {
     private static class GetStatsResponseJson {
         public int numLikes;
         public int numDislikes;
+
+        public GetStatsResponseJson() {}
 
         public GetStatsResponseJson(int numLikes, int numDislikes) {
             this.numLikes = numLikes;
